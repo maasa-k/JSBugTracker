@@ -14,7 +14,28 @@
     </head>
     <body>
         <div class="container">
-            <h1>JavaScript Bug Tracker</h1>
+            <h1>JavaScript Bug Tracker <small>by Maasa</small></h1>
+            <div class="jumbotron">
+                <h3>Report New Bug:</h3>
+                <form id="bugInputForm">
+                    <div class="form-group">
+                        <label for="bugDescInput">Description</label>
+                        <input type="text" class="form-control" id="bugDescInput" placeholder="Describe the issue">
+                    </div>
+                    <div class="form-group">
+                        <label for="priorityLevelInput">Priority Level</label>
+                        <select id="priorityLevelInput" class="form-control">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bugAssignedToInput">Assigned To</label>
+                        <input type="text" class="form-control" id="bugAssignedTo" placeholder="Person responsible">
+                    </div>
+                </form>
+            </div>
         </div>
         
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
