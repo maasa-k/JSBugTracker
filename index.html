@@ -17,10 +17,10 @@
             <h1>JavaScript Bug Tracker <small>by Maasa</small></h1>
             <div class="jumbotron">
                 <h3>Report New Bug:</h3>
-                <form id="bugInputForm">
+                <form id="issueInputForm">
                     <div class="form-group">
-                        <label for="bugDescInput">Description</label>
-                        <input type="text" class="form-control" id="bugDescInput" placeholder="Describe the issue">
+                        <label for="issueDescInput">Description</label>
+                        <input type="text" class="form-control" id="issueDescInput" placeholder="Describe the issue">
                     </div>
                     <div class="form-group">
                         <label for="priorityLevelInput">Priority Level</label>
@@ -31,10 +31,17 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="bugAssignedToInput">Assigned To</label>
+                        <label for="issueAssignedToInput">Assigned To</label>
                         <input type="text" class="form-control" id="bugAssignedTo" placeholder="Person responsible">
                     </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+            </div>
+            <div class="col-lg-12">
+                <div id="issuesList">
+                    
+                </div>
             </div>
         </div>
         
