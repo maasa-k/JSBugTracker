@@ -7,6 +7,31 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.3/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 <body>
+    <div class="container">
+        <h1>JavaScript Bug Tracker <small>by Maasa</small></h1>
+        <div class="jumbotron">
+            <h3>Add New Issue:</h3>
+            <form id="issueInputForm">
+                <div class="form-group">
+                    <label for="issueDescInput">Description</label>
+                    <input type="text" class="form-control" id="issueDescInput" placeholder="Describe the issue">
+                </div>
+                <div class="form-group">
+                    <label for="issuePriorityLevel">Priority Level</label>
+                    <select id="issuePriorityLevel">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="issueDescInput">Description</label>
+                    <input type="text" class="form-control" id="issueDescInput" placeholder="Describe the issue">
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="https://chancejs.com/chance.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.3/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
