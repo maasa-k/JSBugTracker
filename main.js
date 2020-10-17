@@ -1,4 +1,4 @@
-document.getElementById("issueInputForm").addEventListener('submit', saveIssue);
+document.getElementById("issueInputForm").addEventListener("submit", saveIssue);
 
 function saveIssue(e){
     const issueDesc = document.getElementById("issueDescInput").value;
@@ -7,7 +7,7 @@ function saveIssue(e){
     const issueId = chance.guid();
     const issueStatus = "Open";
 
-    const bug = {
+    const issue = {
         id: issueId,
         desc: issueDesc,
         priority: issuePriority,
@@ -32,20 +32,20 @@ function saveIssue(e){
     e.preventDefault();
 }
 
-function fetchbugs() {
-    const bugs = JSON.parse(localStorage.getItem('bugs'));
-    const bugsList = document.getElementById('bugsList');
+function fetchIssues() {
+    const issues = JSON.parse(localStorage.getItem('issues'));
+    const issuesList = document.getElementById('issuesList');
 
-    bugsList.innerHTML = "";
+    issuesList.innerHTML = "";
 
-    for (let i = 0; i < bugs.length; i++) {
-        const id = bugs[i].id;
-        const desc = bugs[i].description;
-        const severity = bugs[i].severity;
-        const assignedTo = bugs[i].assignedTo;
-        const status = bugs[i].status;
+    for (let i = 0; i < issues.length; i++) {
+        const id = issues[i].id;
+        const desc = issues[i].description;
+        const severity = issues[i].severity;
+        const assignedTo = issues[i].assignedTo;
+        const status = issues[i].status;
 
-        bugsList.innerHTML += '<div class="well">' + 
+        issuesList.innerHTML += '<div class="well">' + 
                                 '<h6>Issue ID: ' + id + '<h6>' + 
                                 '<p><span class="label label-info">' + status + '</span></p>' + 
                                 '<h3>' + desc + '</h3>' + 
