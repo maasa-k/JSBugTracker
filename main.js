@@ -1,6 +1,8 @@
 document.getElementById("issueInputForm").addEventListener("submit", saveIssue);
 
 function saveIssue(e){
+    e.preventDefault();
+
     const issueDesc = document.getElementById("issueDescInput").value;
     const issuePriority = document.getElementById("priorityLevelInput").value;
     const issueAssignedTo = document.getElementById("issueAssignedTo").value;
@@ -25,23 +27,35 @@ function saveIssue(e){
         localStorage.setItem("issues", JSON.stringify(issues));
     }
 
-    document.getElementById("issueInpuForm").reset();
+    document.getElementById("issueInputForm").reset();
 
     fetchIssues();
+}
 
-    e.preventDefault();
+function setStatusClosed(id) {
+    const issues = JSON.parse(localStorage.getItem('issues'));
+
+    for (let i = 0; i < issues.length; i++) {
+        if (issues[i].id == id) {
+            issues[i].status = "Closed";
+        }
+    }
+
+    localStorage.setItem('issues', JSON.stringify(issues));
+
+    fetchIssues();
 }
 
 function fetchIssues() {
     const issues = JSON.parse(localStorage.getItem('issues'));
     const issuesList = document.getElementById('issuesList');
-
+    
     issuesList.innerHTML = "";
 
     for (let i = 0; i < issues.length; i++) {
         const id = issues[i].id;
-        const desc = issues[i].description;
-        const severity = issues[i].severity;
+        const desc = issues[i].desc;
+        const severity = issues[i].priority;
         const assignedTo = issues[i].assignedTo;
         const status = issues[i].status;
 
@@ -51,7 +65,7 @@ function fetchIssues() {
                                 '<h3>' + desc + '</h3>' + 
                                 '<p><span class="glyphicon glyphicon-time">' + severity + '</span></p>' + 
                                 '<p><span class="glyphicon glyphicon-user">' + assignedTo + '</span></p>' + 
-                                '<a href="#" onclick="setStatusClosed(\''+id+'\')" class="btn btn-warning">Close</a>' + 
+                                '<a href="#" class="btn btn-warning" onclick="setStatusClosed(\''+id+'\')">Close</a>' + 
                                 '<a href="#" onclick="deleteIssue(\''+id+'\')" class="btn btn-danger">Delete</a>' + 
                                 '</div>'
     }
