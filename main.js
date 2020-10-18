@@ -9,18 +9,20 @@ function fetchIssues() {
     for (let i = 0; i < issues.length; i++) {
         const id = issues[i].id;
         const desc = issues[i].desc;
-        const severity = issues[i].priority;
+        const priority = issues[i].priority;
         const assignedTo = issues[i].assignedTo;
         const status = issues[i].status;
 
-        issuesList.innerHTML += '<div class="well">' + 
-                                '<h6>Issue ID: ' + id + '<h6>' + 
-                                '<p><span class="label label-info">' + status + '</span></p>' + 
-                                '<h3>' + desc + '</h3>' + 
-                                '<p><span class="glyphicon glyphicon-time">' + severity + '</span></p>' + 
-                                '<p><span class="glyphicon glyphicon-user">' + assignedTo + '</span></p>' + 
-                                '<a href="#" onclick="setStatusClosed(\''+id+'\')" class="btn btn-warning">Close</a>' + 
-                                '<a href="#" onclick="deleteIssue(\''+id+'\')" class="btn btn-danger">Delete</a>' + 
+        issuesList.innerHTML += '<div class="card mb-3" style="width: 25rem">' + 
+                                    '<div class="card-body">' +
+                                    '<h3 class="card-title">' + desc + '</h3>' + 
+                                    '<h6>Issue ID: ' + id + '<h6>' + 
+                                    '<p><span class="label label-info">Status: ' + status + '</span></p>' + 
+                                    '<p><span class="glyphicon glyphicon-time">Priority Level: ' + priority + '</span></p>' + 
+                                    '<p><span class="glyphicon glyphicon-user">Assigned to: ' + assignedTo + '</span></p>' + 
+                                    '<a href="#" onclick="setStatusClosed(\''+id+'\')" class="btn btn-warning mx-3">Close</a>' + 
+                                    '<a href="#" onclick="deleteIssue(\''+id+'\')" class="btn btn-danger">Delete</a>' + 
+                                    '</div>' +
                                 '</div>'
     }
 }
@@ -83,4 +85,3 @@ function setStatusClosed(id) {
 
     fetchIssues();
 }
-
