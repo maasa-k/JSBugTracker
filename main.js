@@ -13,7 +13,7 @@ function fetchIssues() {
         const assignedTo = issues[i].assignedTo;
         const status = issues[i].status;
 
-        issuesList.innerHTML += '<div class="card mb-3" style="width: 25rem">' + 
+        issuesList.innerHTML += '<div class="card mb-3" style="width: 25rem" id="' + id + '">' + 
                                     '<div class="card-body">' +
                                     '<h3 class="card-title">' + desc + '</h3>' + 
                                     '<h6>Issue ID: ' + id + '<h6>' + 
@@ -64,12 +64,15 @@ function deleteIssue(id) {
     for (let i = 0; i < issues.length; i++) {
         if (issues[i].id == id) {
             issues.splice(i, 1);
+            const el = document.getElementById(`${id}`);
+            el.parentNode.removeChild(el);
         }
     }
 
     localStorage.setItem('issues', JSON.stringify(issues));
     
-    fetchIssues();
+    // fetchIssues();
+
 }
 
 function setStatusClosed(id) {

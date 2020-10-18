@@ -1,0 +1,22 @@
+{
+  "name": "jsbugtracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maasa-k/JSBugTracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maasa-k/JSBugTracker/issues"
+  },
+  "homepage": "https://github.com/maasa-k/JSBugTracker#readme",
+  "dependencies": {
+    "nedb": "^1.8.0"
+  }
+}

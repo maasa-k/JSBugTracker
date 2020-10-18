@@ -49,5 +49,26 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
         <script src="https://chancejs.com/chance.min.js"></script>
         <script src="main.js"></script>
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+            
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+             https://firebase.google.com/docs/web/setup#available-libraries -->
+        
+        <script>
+          // Your web app's Firebase configuration
+          var firebaseConfig = {
+            apiKey: "AIzaSyDzMxIcY-puVE7ul2QcI4GYIyn1V6owJXQ",
+            authDomain: "jsbugtracker.firebaseapp.com",
+            databaseURL: "https://jsbugtracker.firebaseio.com",
+            projectId: "jsbugtracker",
+            storageBucket: "jsbugtracker.appspot.com",
+            messagingSenderId: "73963561169",
+            appId: "1:73963561169:web:a2bf79837b6afebad7e5f0"
+          };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+        </script>
     </body>
     </html>
