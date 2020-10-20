@@ -10,41 +10,9 @@ let firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-// issuesList.innerHTML = "";
-
-// function fetchIssues() { 
-//     const issuesList = document.getElementById('issuesList');
-//     const issues = firebase.database().ref('issues');
-
-//     issues.on('value', snap => {
-//         snap.forEach(s => {
-//             const issue = s.val();
             
-//             const id = issue.id;
-//             const desc = issue.desc;
-//             const priority = issue.priority;
-//             const assignedTo = issue.assignedTo;
-//             const status = issue.status;
-            
-//             issuesList.innerHTML += '<div class="card mb-3" style="width: 25rem" id="' + id + '">' + 
-//                                         '<div class="card-body">' +
-//                                         '<h3 class="card-title">' + desc + '</h3>' + 
-//                                         '<h6>Issue ID: ' + id + '<h6>' + 
-//                                         '<p><span class="label label-info">Status: ' + status + '</span></p>' + 
-//                                         '<p><span class="glyphicon glyphicon-time">Priority Level: ' + priority + '</span></p>' + 
-//                                         '<p><span class="glyphicon glyphicon-user">Assigned to: ' + assignedTo + '</span></p>' + 
-//                                         '<a href="#" onclick="setStatusClosed(\''+id+'\')" class="btn btn-warning mx-3">Close</a>' + 
-//                                         '<a href="#" onclick="deleteIssue(\''+id+'\')" class="btn btn-danger">Delete</a>' + 
-//                                         '</div>' +
-//                                     '</div>'
-//         })   
-//     })
-// };
-
 document.getElementById("form").addEventListener("submit", e => {
-    e.preventDefault();
-    
+    e.preventDefault()
     const desc = document.getElementById("issueDescInput").value;
     const priority = document.getElementById("priorityLevelInput").value;
     const assignedTo = document.getElementById("issueAssignedTo").value;
@@ -64,27 +32,50 @@ function saveIssue(desc, priority, assignedTo, status, id) {
         priority: priority,
         assignedTo: assignedTo
     });
+    
+    document.getElementById('issuesList').innerHTML = "";
+    readIssues();
 }
 
-//------------------------------------------------------------------------------------------------------//
+function readIssues() {
+    const issues = firebase.database().ref("issues/");
+    issues.on("child_added", function(data) {
+        const issue = data.val();
+        document.getElementById("issuesList").innerHTML += `
+            <div class="card mb-3" style="width: 25rem">
+                <div class="card-body">
+                    <h3 class="card-title">${issue.desc}</h3>
+                    <h6>Issue ID: ${issue.id}</h6>
+                    <p><span class="label label-info">Status: ${issue.status}</span></p>
+                    <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
+                    <p><span class="glyphicon glyphicon-user">Assigned to: ${issue.assignedTo}</span></p>
+                    <a href="#" onclick="setStatusClosed(${issue.id})" class="btn btn-warning mx-3">Close</a>
+                    <a href="#" onclick="deleteIssue(${issue.id})" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        `
+    }
+)}
 
-    // issues.on('value', function(snapshot) {
-    //     snapshot.forEach(function(childSnapshot) {
-    //     //   const id = childSnapshot.key;
-    //       const issue = childSnapshot.val();
-
-    //       const id = issue.id;
-    //       const desc = issue.desc;
-    //       const priority = issue.priority;
-    //       const assignedTo = issue.assignedTo;
-    //       const status = issue.status;
-
-    //       issuesList.innerHTML += '<div class="card mb-3" style="width: 25rem" id="' + id + '">' + 
-    //                                 '<div class="card-body">' +
-    //                                 '<h3 class="card-title">' + desc + '</h3>' + 
-    //                                 '<h6>Issue ID: ' + id + '<h6>' + 
-    //                                 '<p><span class="label label-info">Status: ' + status + '</span></p>' + 
-    //                                 '<p><span class="glyphicon glyphicon-time">Priority Level: ' + priority + '</span></p>' + 
+            //------------------------------------------------------------------------------------------------------//
+            
+            // issues.on('value', function(snapshot) {
+                //     snapshot.forEach(function(childSnapshot) {
+                    //     //   const id = childSnapshot.key;
+                    //       const issue = childSnapshot.val();
+                    
+                    //       const id = issue.id;
+                    //       const desc = issue.desc;
+                    //       const priority = issue.priority;
+                    //       const assignedTo = issue.assignedTo;
+                    //       const status = issue.status;
+                    
+                    //       issuesList.innerHTML += '<div class="card mb-3" style="width: 25rem" id="' + id + '">' + 
+                    //                                 '<div class="card-body">' +
+                    //                                 '<h3 class="card-title">' + desc + '</h3>' + 
+                    //                                 '<h6>Issue ID: ' + id + '<h6>' + 
+                    //                                 '<p><span class="label label-info">Status: ' + status + '</span></p>' + 
+                    //                                 '<p><span class="glyphicon glyphicon-time">Priority Level: ' + priority + '</span></p>' + 
     //                                 '<p><span class="glyphicon glyphicon-user">Assigned to: ' + assignedTo + '</span></p>' + 
     //                                 '<a href="#" onclick="setStatusClosed(\''+id+'\')" class="btn btn-warning mx-3">Close</a>' + 
     //                                 '<a href="#" onclick="deleteIssue(\''+id+'\')" class="btn btn-danger">Delete</a>' + 
