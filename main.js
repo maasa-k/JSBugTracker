@@ -1,3 +1,4 @@
+//--------------------------------------Firebase---------------------------------------------------------//
 let firebaseConfig = {
     apiKey: "AIzaSyDzMxIcY-puVE7ul2QcI4GYIyn1V6owJXQ",
     authDomain: "jsbugtracker.firebaseapp.com",
@@ -10,40 +11,88 @@ let firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-//--------------------------------------Firebase---------------------------------------------------------//
+// issuesList.innerHTML = "";
 
-function fetchIssues() {
-    const issuesList = document.getElementById('issuesList');
+// function fetchIssues() { 
+//     const issuesList = document.getElementById('issuesList');
+//     const issues = firebase.database().ref('issues');
+
+//     issues.on('value', snap => {
+//         snap.forEach(s => {
+//             const issue = s.val();
+            
+//             const id = issue.id;
+//             const desc = issue.desc;
+//             const priority = issue.priority;
+//             const assignedTo = issue.assignedTo;
+//             const status = issue.status;
+            
+//             issuesList.innerHTML += '<div class="card mb-3" style="width: 25rem" id="' + id + '">' + 
+//                                         '<div class="card-body">' +
+//                                         '<h3 class="card-title">' + desc + '</h3>' + 
+//                                         '<h6>Issue ID: ' + id + '<h6>' + 
+//                                         '<p><span class="label label-info">Status: ' + status + '</span></p>' + 
+//                                         '<p><span class="glyphicon glyphicon-time">Priority Level: ' + priority + '</span></p>' + 
+//                                         '<p><span class="glyphicon glyphicon-user">Assigned to: ' + assignedTo + '</span></p>' + 
+//                                         '<a href="#" onclick="setStatusClosed(\''+id+'\')" class="btn btn-warning mx-3">Close</a>' + 
+//                                         '<a href="#" onclick="deleteIssue(\''+id+'\')" class="btn btn-danger">Delete</a>' + 
+//                                         '</div>' +
+//                                     '</div>'
+//         })   
+//     })
+// };
+
+document.getElementById("form").addEventListener("submit", e => {
+    e.preventDefault();
     
-    issuesList.innerHTML = "";
-
-    // const issues = firebase.database().ref('issues/');
+    const desc = document.getElementById("issueDescInput").value;
+    const priority = document.getElementById("priorityLevelInput").value;
+    const assignedTo = document.getElementById("issueAssignedTo").value;
+    const status = "Open";
+    const id = chance.guid();
     
-    firebase.database().ref('issues/').on('value', function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-        //   const id = childSnapshot.key;
-          const issue = childSnapshot.val();
+    form.reset();
+    
+    saveIssue(desc, priority, assignedTo, status, id);
+})
 
-          const id = issue.id;
-          const desc = issue.desc;
-          const priority = issue.priority;
-          const assignedTo = issue.assignedTo;
-          const status = issue.status;
+function saveIssue(desc, priority, assignedTo, status, id) {    
+    firebase.database().ref('issues/' + id).set({
+        desc: desc,
+        id: id,
+        status: status,
+        priority: priority,
+        assignedTo: assignedTo
+    });
+}
 
-          issuesList.innerHTML += '<div class="card mb-3" style="width: 25rem" id="' + id + '">' + 
-                                    '<div class="card-body">' +
-                                    '<h3 class="card-title">' + desc + '</h3>' + 
-                                    '<h6>Issue ID: ' + id + '<h6>' + 
-                                    '<p><span class="label label-info">Status: ' + status + '</span></p>' + 
-                                    '<p><span class="glyphicon glyphicon-time">Priority Level: ' + priority + '</span></p>' + 
-                                    '<p><span class="glyphicon glyphicon-user">Assigned to: ' + assignedTo + '</span></p>' + 
-                                    '<a href="#" onclick="setStatusClosed(\''+id+'\')" class="btn btn-warning mx-3">Close</a>' + 
-                                    '<a href="#" onclick="deleteIssue(\''+id+'\')" class="btn btn-danger">Delete</a>' + 
-                                    '</div>' +
-                                '</div>'
+//------------------------------------------------------------------------------------------------------//
+
+    // issues.on('value', function(snapshot) {
+    //     snapshot.forEach(function(childSnapshot) {
+    //     //   const id = childSnapshot.key;
+    //       const issue = childSnapshot.val();
+
+    //       const id = issue.id;
+    //       const desc = issue.desc;
+    //       const priority = issue.priority;
+    //       const assignedTo = issue.assignedTo;
+    //       const status = issue.status;
+
+    //       issuesList.innerHTML += '<div class="card mb-3" style="width: 25rem" id="' + id + '">' + 
+    //                                 '<div class="card-body">' +
+    //                                 '<h3 class="card-title">' + desc + '</h3>' + 
+    //                                 '<h6>Issue ID: ' + id + '<h6>' + 
+    //                                 '<p><span class="label label-info">Status: ' + status + '</span></p>' + 
+    //                                 '<p><span class="glyphicon glyphicon-time">Priority Level: ' + priority + '</span></p>' + 
+    //                                 '<p><span class="glyphicon glyphicon-user">Assigned to: ' + assignedTo + '</span></p>' + 
+    //                                 '<a href="#" onclick="setStatusClosed(\''+id+'\')" class="btn btn-warning mx-3">Close</a>' + 
+    //                                 '<a href="#" onclick="deleteIssue(\''+id+'\')" class="btn btn-danger">Delete</a>' + 
+    //                                 '</div>' +
+    //                             '</div>'
           
-        });
-    })
+    //     });
+    // })
 
         // for (let i = 0; i < issues.length; i++) {
         //     const id = issues[i].id;
@@ -87,29 +136,7 @@ function fetchIssues() {
     //                             '</div>'
     // }   
     
-};
 
-document.getElementById("issueInputForm").addEventListener("submit", saveIssue);
-
-function saveIssue(e) {
-    e.preventDefault();
-    
-    const desc = document.getElementById("issueDescInput").value;
-    const id = chance.guid();
-    const status = "Open";
-    const priority = document.getElementById("priorityLevelInput").value;
-    const assignedTo = document.getElementById("issueAssignedTo").value;
-    
-    firebase.database().ref('issues/' + id).set({
-        desc: desc,
-        id: id,
-        status: status,
-        priority: priority,
-        assignedTo: assignedTo
-    });
-    
-    document.getElementById("issueInputForm").reset();
-}
 
 
 //---------------------------------------Original--------------------------------------------------------//
