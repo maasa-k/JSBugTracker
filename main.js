@@ -1,5 +1,5 @@
 //--------------------------------------Firebase---------------------------------------------------------//
-let firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyDzMxIcY-puVE7ul2QcI4GYIyn1V6owJXQ",
     authDomain: "jsbugtracker.firebaseapp.com",
     databaseURL: "https://jsbugtracker.firebaseio.com",
@@ -10,7 +10,27 @@ let firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-            
+
+function readIssues() {
+    const issues = firebase.database().ref("issues/");
+    issues.on("child_added", function(data) {
+        const issue = data.val();
+        document.getElementById("issuesList").innerHTML += `
+            <div class="card mb-3" id="${issue.id}" style="width: 25rem">
+                <div class="card-body">
+                    <h3 class="card-title">${issue.desc}</h3>
+                    <h6>Issue ID: ${issue.id}</h6>
+                    <p><span class="label label-info">Status: ${issue.status}</span></p>
+                    <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
+                    <p><span class="glyphicon glyphicon-user">Assigned to: ${issue.assignedTo}</span></p>
+                    <button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>
+                    <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
+                </div>
+            </div>
+        `
+    }
+)}
+
 document.getElementById("form").addEventListener("submit", e => {
     e.preventDefault()
     const desc = document.getElementById("issueDescInput").value;
@@ -33,29 +53,22 @@ function saveIssue(desc, priority, assignedTo, status, id) {
         assignedTo: assignedTo
     });
     
-    document.getElementById('issuesList').innerHTML = "";
+    document.getElementById('issuesList').innerHTML = "";    // This stopped new issue entries from duplicating existing entries
     readIssues();
 }
 
-function readIssues() {
-    const issues = firebase.database().ref("issues/");
-    issues.on("child_added", function(data) {
-        const issue = data.val();
-        document.getElementById("issuesList").innerHTML += `
-            <div class="card mb-3" style="width: 25rem">
-                <div class="card-body">
-                    <h3 class="card-title">${issue.desc}</h3>
-                    <h6>Issue ID: ${issue.id}</h6>
-                    <p><span class="label label-info">Status: ${issue.status}</span></p>
-                    <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
-                    <p><span class="glyphicon glyphicon-user">Assigned to: ${issue.assignedTo}</span></p>
-                    <a href="#" onclick="setStatusClosed(${issue.id})" class="btn btn-warning mx-3">Close</a>
-                    <a href="#" onclick="deleteIssue(${issue.id})" class="btn btn-danger">Delete</a>
-                </div>
-            </div>
-        `
-    }
-)}
+
+// function setStatusClosed(id) {
+//     console.log(id)
+//     console.log(document.getElementById(id));
+
+// }
+
+function deleteIssue(id) {
+    firebase.database().ref("issues/" + id).remove();
+    document.getElementById('issuesList').innerHTML = "";
+    readIssues();
+}
 
             //------------------------------------------------------------------------------------------------------//
             
