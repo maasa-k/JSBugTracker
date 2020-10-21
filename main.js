@@ -11,9 +11,11 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+const issuesRef = firebase.database().ref('issues/');
+
 function readIssues() {
-    const issues = firebase.database().ref("issues/");
-    issues.on("child_added", function(data) {
+    // const issues = firebase.database().ref("issues/");
+    issuesRef.on("child_added", function(data) {
         const issue = data.val();
         document.getElementById("issuesList").innerHTML += `
             <div class="card mb-3" id="${issue.id}" style="width: 25rem">
@@ -53,16 +55,17 @@ function saveIssue(desc, priority, assignedTo, status, id) {
         assignedTo: assignedTo
     });
     
-    document.getElementById('issuesList').innerHTML = "";    // This stopped new issue entries from duplicating existing entries
+    document.getElementById('issuesList').innerHTML = "";
     readIssues();
 }
 
-
-// function setStatusClosed(id) {
-//     console.log(id)
-//     console.log(document.getElementById(id));
-
-// }
+function setStatusClosed(id) {
+    issuesRef.child(`${id}`).update({
+        "status": "Closed"
+    })
+    document.getElementById('issuesList').innerHTML = "";
+    readIssues();
+}
 
 function deleteIssue(id) {
     firebase.database().ref("issues/" + id).remove();
