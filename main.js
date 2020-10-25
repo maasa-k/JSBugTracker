@@ -8,28 +8,30 @@ const firebaseConfig = {
     messagingSenderId: "73963561169",
     appId: "1:73963561169:web:a2bf79837b6afebad7e5f0"
 };
-// Initialize Firebase
+
 firebase.initializeApp(firebaseConfig);
 
-const issuesRef = firebase.database().ref('issues/');
+const issuesRef = firebase.database().ref('issues');
 
 function readIssues() {
-    // const issues = firebase.database().ref("issues/");
-    issuesRef.on("child_added", function(data) {
-        const issue = data.val();
-        document.getElementById("issuesList").innerHTML += `
-            <div class="card mb-3" id="${issue.id}" style="width: 25rem">
-                <div class="card-body">
-                    <h3 class="card-title">${issue.desc}</h3>
-                    <h6>Issue ID: ${issue.id}</h6>
-                    <p><span class="label label-info">Status: ${issue.status}</span></p>
-                    <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
-                    <p><span class="glyphicon glyphicon-user">Assigned to: ${issue.assignedTo}</span></p>
-                    <button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>
-                    <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
+    issuesRef.on("value", function(snapshot) {
+        snapshot.forEach(snap => {
+            const issue = snap.val();
+            
+            document.getElementById("issuesList").innerHTML += `
+                <div class="card mb-3" id="${issue.id}" style="width: 25rem">
+                    <div class="card-body">
+                        <h3 class="card-title">${issue.desc}</h3>
+                        <h6>Issue ID: ${issue.id}</h6>
+                        <p><span class="label label-info">Status: ${issue.status}</span></p>
+                        <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
+                        <p><span class="glyphicon glyphicon-user">Assigned to: ${issue.assignedTo}</span></p>
+                        <button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>
+                        <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
+                    </div>
                 </div>
-            </div>
-        `
+            `
+        })
     }
 )}
 
