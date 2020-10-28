@@ -26,7 +26,10 @@ function readIssues() {
                         <p><span class="label label-info">Status: ${issue.status}</span></p>
                         <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
                         <p><span class="glyphicon glyphicon-user">Assigned to: ${issue.assignedTo}</span></p>
-                        <button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>
+                        ` +
+                        statusButton(issue)
+                        +
+                        ` 
                         <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
                     </div>
                 </div>
@@ -34,6 +37,8 @@ function readIssues() {
         })
     }
 )}
+
+{/* <button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button> */}
 
 document.getElementById("form").addEventListener("submit", e => {
     e.preventDefault()
@@ -47,6 +52,14 @@ document.getElementById("form").addEventListener("submit", e => {
     
     saveIssue(desc, priority, assignedTo, status, id);
 })
+
+function statusButton(issue) {
+    if (issue.status === "Open") {
+        return `<button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>`
+    } else {
+        return `<button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Open</button>`
+    }
+}
 
 function saveIssue(desc, priority, assignedTo, status, id) {    
     firebase.database().ref('issues/' + id).set({
@@ -65,6 +78,7 @@ function setStatusClosed(id) {
     issuesRef.child(`${id}`).update({
         "status": "Closed"
     })
+    const issueCard = document.querySelector('button').dataset.buttonId
     document.getElementById('issuesList').innerHTML = "";
     readIssues();
 }
