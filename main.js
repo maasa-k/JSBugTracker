@@ -38,7 +38,20 @@ function readIssues() {
     }
 )}
 
-{/* <button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button> */}
+function statusButton(issue) {
+    if (issue.status === "Open") {
+        return `<button onclick="changeStatus('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>`
+    } else {
+        return `<button onclick="changeStatus('${issue.id}')" id="openButton" class="btn btn-warning mx-3">Open</button>`
+    }
+}
+// function statusButton(issue) {
+//     if (issue.status === "Open") {
+//         return `<button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>`
+//     } else {
+//         return `<button onclick="setStatusClosed('${issue.id}')" id="openButton" class="btn btn-warning mx-3">Open</button>`
+//     }
+// }
 
 document.getElementById("form").addEventListener("submit", e => {
     e.preventDefault()
@@ -53,13 +66,6 @@ document.getElementById("form").addEventListener("submit", e => {
     saveIssue(desc, priority, assignedTo, status, id);
 })
 
-function statusButton(issue) {
-    if (issue.status === "Open") {
-        return `<button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>`
-    } else {
-        return `<button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Open</button>`
-    }
-}
 
 function saveIssue(desc, priority, assignedTo, status, id) {    
     firebase.database().ref('issues/' + id).set({
@@ -74,13 +80,21 @@ function saveIssue(desc, priority, assignedTo, status, id) {
     readIssues();
 }
 
-function setStatusClosed(id) {
-    issuesRef.child(`${id}`).update({
-        "status": "Closed"
+// function setStatusClosed(id) {
+//     issuesRef.child(`${id}`).update({
+//         "status": "Closed"
+//     })
+//     document.getElementById('issuesList').innerHTML = "";
+//     readIssues();
+// }
+
+function changeStatus(id) {
+    issuesRef.orderByKey().equalTo(id).on("value", function(snapshot) {
+        console.log(snapshot.val())
+        // if (snapshot.val().status == "Open") {
+            
+        // }
     })
-    const issueCard = document.querySelector('button').dataset.buttonId
-    document.getElementById('issuesList').innerHTML = "";
-    readIssues();
 }
 
 function deleteIssue(id) {
