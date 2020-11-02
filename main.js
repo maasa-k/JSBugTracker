@@ -26,7 +26,10 @@ function readIssues() {
                         <p><span class="label label-info">Status: ${issue.status}</span></p>
                         <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
                         <p><span class="glyphicon glyphicon-user">Assigned to: ${issue.assignedTo}</span></p>
-                        <button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>
+                        ` +
+                        statusButton(issue)
+                        +
+                        ` 
                         <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
                     </div>
                 </div>
@@ -35,25 +38,13 @@ function readIssues() {
     }
 )}
 
-// ` +
-//                         statusButton(issue)
-//                         +
-//                         ` 
-
 function statusButton(issue) {
     if (issue.status === "Open") {
-        return `<button onclick="changeStatus('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>`
+        return `<button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>`
     } else {
-        return `<button onclick="changeStatus('${issue.id}')" id="openButton" class="btn btn-warning mx-3">Open</button>`
+        return `<button onclick="setStatusOpen('${issue.id}')" id="openButton" class="btn btn-warning mx-3">Open</button>`
     }
 }
-// function statusButton(issue) {
-//     if (issue.status === "Open") {
-//         return `<button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>`
-//     } else {
-//         return `<button onclick="setStatusClosed('${issue.id}')" id="openButton" class="btn btn-warning mx-3">Open</button>`
-//     }
-// }
 
 document.getElementById("form").addEventListener("submit", e => {
     e.preventDefault()
@@ -70,7 +61,7 @@ document.getElementById("form").addEventListener("submit", e => {
 
 
 function saveIssue(desc, priority, assignedTo, status, id) {    
-    firebase.database().ref('issues/' + id).set({
+    issuesRef.child(`${id}`).set({
         desc: desc,
         id: id,
         status: status,
@@ -83,24 +74,23 @@ function saveIssue(desc, priority, assignedTo, status, id) {
 }
 
 function setStatusClosed(id) {
-    issuesRef.child(`${id}`).update({
+    issuesRef.child(id).update({
         "status": "Closed"
     })
     document.getElementById('issuesList').innerHTML = "";
     readIssues();
 }
 
-// function changeStatus(id) {
-//     issuesRef.orderByKey().equalTo(id).on("value", function(snapshot) {
-//         console.log(snapshot.val())
-//         // if (snapshot.val().status == "Open") {
-            
-//         // }
-//     })
-// }
+function setStatusOpen(id) {
+    issuesRef.child(id).update({
+        "status": "Open"
+    })
+    document.getElementById('issuesList').innerHTML = "";
+    readIssues();
+}
 
 function deleteIssue(id) {
-    issuesRef.child(`${id}`).remove();
+    issuesRef.child(id).remove();
     document.getElementById('issuesList').innerHTML = "";
     readIssues();
 }
