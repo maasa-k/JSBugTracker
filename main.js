@@ -26,10 +26,7 @@ function readIssues() {
                         <p><span class="label label-info">Status: ${issue.status}</span></p>
                         <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
                         <p><span class="glyphicon glyphicon-user">Assigned to: ${issue.assignedTo}</span></p>
-                        ` +
-                        statusButton(issue)
-                        +
-                        ` 
+                        <button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>
                         <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
                     </div>
                 </div>
@@ -37,6 +34,11 @@ function readIssues() {
         })
     }
 )}
+
+// ` +
+//                         statusButton(issue)
+//                         +
+//                         ` 
 
 function statusButton(issue) {
     if (issue.status === "Open") {
@@ -80,25 +82,25 @@ function saveIssue(desc, priority, assignedTo, status, id) {
     readIssues();
 }
 
-// function setStatusClosed(id) {
-//     issuesRef.child(`${id}`).update({
-//         "status": "Closed"
-//     })
-//     document.getElementById('issuesList').innerHTML = "";
-//     readIssues();
-// }
-
-function changeStatus(id) {
-    issuesRef.orderByKey().equalTo(id).on("value", function(snapshot) {
-        console.log(snapshot.val())
-        // if (snapshot.val().status == "Open") {
-            
-        // }
+function setStatusClosed(id) {
+    issuesRef.child(`${id}`).update({
+        "status": "Closed"
     })
+    document.getElementById('issuesList').innerHTML = "";
+    readIssues();
 }
 
+// function changeStatus(id) {
+//     issuesRef.orderByKey().equalTo(id).on("value", function(snapshot) {
+//         console.log(snapshot.val())
+//         // if (snapshot.val().status == "Open") {
+            
+//         // }
+//     })
+// }
+
 function deleteIssue(id) {
-    firebase.database().ref("issues/" + id).remove();
+    issuesRef.child(`${id}`).remove();
     document.getElementById('issuesList').innerHTML = "";
     readIssues();
 }
