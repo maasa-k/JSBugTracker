@@ -38,6 +38,11 @@ function readIssues() {
     }
 )}
 
+function renderCurrentData() {
+    document.getElementById('issuesList').innerHTML = "";
+    readIssues();
+}
+
 function statusButton(issue) {
     if (issue.status === "Open") {
         return `<button onclick="setStatusClosed('${issue.id}')" id="closeButton" class="btn btn-warning mx-3">Close</button>`
@@ -69,30 +74,29 @@ function saveIssue(desc, priority, assignedTo, status, id) {
         assignedTo: assignedTo
     });
     
-    document.getElementById('issuesList').innerHTML = "";
-    readIssues();
+    renderCurrentData();
 }
 
 function setStatusClosed(id) {
     issuesRef.child(id).update({
         "status": "Closed"
     })
-    document.getElementById('issuesList').innerHTML = "";
-    readIssues();
+    
+    renderCurrentData();
 }
 
 function setStatusOpen(id) {
     issuesRef.child(id).update({
         "status": "Open"
     })
-    document.getElementById('issuesList').innerHTML = "";
-    readIssues();
+    
+    renderCurrentData();
 }
 
 function deleteIssue(id) {
     issuesRef.child(id).remove();
-    document.getElementById('issuesList').innerHTML = "";
-    readIssues();
+    
+    renderCurrentData();
 }
 
             //------------------------------------------------------------------------------------------------------//
