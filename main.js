@@ -13,7 +13,32 @@ firebase.initializeApp(firebaseConfig);
 const issuesRef = firebase.database().ref('issues');
 
 function readIssues() {
-    issuesRef.orderByChild('date').on("value", function(snapshot) {
+    issuesRef.on("value", function(snapshot) {
+        snapshot.forEach(snap => {
+            const issue = snap.val();
+            
+            document.getElementById("issuesList").innerHTML += `
+                <div class="card mb-3" id="${issue.id}" style="width: 25rem">
+                    <div class="card-body">
+                        <h3 class="card-title">${issue.desc}</h3>
+                        <h6>Issue ID: ${issue.id}</h6>
+                        <p><span class="label label-info">Status: ${issue.status}</span></p>
+                        <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
+                        <p><span class="glyphicon glyphicon-user">Date created: ${issue.date}</span></p>
+                        ` +
+                        statusButton(issue)
+                        +
+                        ` 
+                        <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
+                    </div>
+                </div>
+            `
+        })
+    }
+)}
+
+function readFilteredIssues() {
+    issuesRef.orderByChild('date_priority').equalTo('high').on("value", function(snapshot) {
         snapshot.forEach(snap => {
             const issue = snap.val();
             
@@ -57,12 +82,26 @@ document.getElementById("newIssueForm").addEventListener("submit", e => {
     const priority = document.getElementById("priorityLevelInput").value;
     const date = Date();
     const status = "Open";
-    const id = chance.guid();
+    const id = generateId();
     
     newIssueForm.reset();
     
     saveIssue(desc, priority, date, status, id);
 })
+
+function generateId() {
+    const newDate = new Date();
+
+    const date = newDate.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).replace(/[^0-9]/g, "");
+    
+    const time = newDate.getTime().toString();
+
+    return date + time;
+}
 
 function saveIssue(desc, priority, date, status, id) {    
     issuesRef.child(`${id}`).set({
