@@ -37,8 +37,23 @@ function readIssues() {
     }
 )}
 
-function readFilteredIssues() {
-    issuesRef.orderByChild('date_priority').equalTo('high').on("value", function(snapshot) {
+document.getElementById('lowPriority').addEventListener('click', e => {
+    document.getElementById('issuesList').innerHTML = "";
+    readFilteredIssues(e);
+})
+
+document.getElementById('mediumPriority').addEventListener('click', e => {
+    document.getElementById('issuesList').innerHTML = "";
+    readFilteredIssues(e);
+})
+
+document.getElementById('highPriority').addEventListener('click', e => {
+    document.getElementById('issuesList').innerHTML = "";
+    readFilteredIssues(e);
+})
+
+function readFilteredIssues(e) {
+    issuesRef.orderByChild('priority').equalTo(e.target.innerHTML).on("value", function(snapshot) {
         snapshot.forEach(snap => {
             const issue = snap.val();
             
