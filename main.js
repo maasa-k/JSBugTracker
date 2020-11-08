@@ -24,7 +24,7 @@ function readIssues() {
                         <h6>Issue ID: ${issue.id}</h6>
                         <p><span class="label label-info">Status: ${issue.status}</span></p>
                         <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
-                        <p><span class="glyphicon glyphicon-user">Assigned to: ${issue.assignedTo}</span></p>
+                        <p><span class="glyphicon glyphicon-user">Date created: ${issue.date}</span></p>
                         ` +
                         statusButton(issue)
                         +
@@ -50,26 +50,30 @@ function renderCurrentData() {
     readIssues();
 }
 
-document.getElementById("form").addEventListener("submit", e => {
+document.getElementById("newIssueForm").addEventListener("submit", e => {
     e.preventDefault()
+
+    // const date = new Date();
+
     const desc = document.getElementById("issueDescInput").value;
     const priority = document.getElementById("priorityLevelInput").value;
-    const assignedTo = document.getElementById("issueAssignedTo").value;
+    // const assignedTo = document.getElementById("issueAssignedTo").value;
+    const date = Date();
     const status = "Open";
     const id = chance.guid();
     
-    form.reset();
+    newIssueForm.reset();
     
-    saveIssue(desc, priority, assignedTo, status, id);
+    saveIssue(desc, priority, date, status, id);
 })
 
-function saveIssue(desc, priority, assignedTo, status, id) {    
+function saveIssue(desc, priority, date, status, id) {    
     issuesRef.child(`${id}`).set({
         desc: desc,
         id: id,
         status: status,
         priority: priority,
-        assignedTo: assignedTo
+        date: date
     });
     
     renderCurrentData();

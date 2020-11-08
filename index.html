@@ -13,7 +13,7 @@
             <h1>JavaScript Bug Tracker <small>by Maasa</small></h1>
             <div class="jumbotron">
                 <h3>Report New Bug:</h3>
-                <form id="form">
+                <form id="newIssueForm">
                     <div class="form-group">
                         <label for="issueDescInput">Description</label>
                         <input type="text" class="form-control" id="issueDescInput" placeholder="Describe the issue">
@@ -26,23 +26,24 @@
                             <option value="High">High</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="issueAssignedToInput">Assigned To</label>
                         <input type="text" class="form-control" id="issueAssignedTo" placeholder="Person responsible">
-                    </div>
+                    </div> -->
                     
                     <button type="submit" class="btn btn-primary" id="submit">Submit</button>
                 </form>
             </div>
-            <div class='form-group'>
-                <label for='filterByPriority'>Filter By Priority Level:</label>
-                <select id='filterByPriority' class='form-control'>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
-                <button type="submit" class='btn btn-primary' id='filter'>Filter</button>
-            </div>
+            <form id='filterForm'>
+                <div class='form-group'>
+                    <label for='filterByPriority'>Filter By Priority Level:</label>
+                    <select id='filterByPriority' class='form-control'>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+            </form>
             <div class="col-lg-12">
                 <div id="issuesList">
                 </div>
