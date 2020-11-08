@@ -13,7 +13,7 @@ firebase.initializeApp(firebaseConfig);
 const issuesRef = firebase.database().ref('issues');
 
 function readIssues() {
-    issuesRef.on("value", function(snapshot) {
+    issuesRef.orderByChild('date').on("value", function(snapshot) {
         snapshot.forEach(snap => {
             const issue = snap.val();
             
@@ -53,11 +53,8 @@ function renderCurrentData() {
 document.getElementById("newIssueForm").addEventListener("submit", e => {
     e.preventDefault()
 
-    // const date = new Date();
-
     const desc = document.getElementById("issueDescInput").value;
     const priority = document.getElementById("priorityLevelInput").value;
-    // const assignedTo = document.getElementById("issueAssignedTo").value;
     const date = Date();
     const status = "Open";
     const id = chance.guid();
