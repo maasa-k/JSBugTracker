@@ -13,15 +13,15 @@ firebase.initializeApp(firebaseConfig);
 const issuesRef = firebase.database().ref('issues');
 
 function readIssues() {
-    issuesRef.on("value", function(snapshot) {
+    issuesRef.orderByChild("date").on("value", function(snapshot) {
         snapshot.forEach(snap => {
             const issue = snap.val();
             
             document.getElementById("issuesList").innerHTML += `
-                <div class="card mb-3" id="${issue.id}" style="width: 25rem">
+                <div class="card" id="${issue.id}">
                     <div class="card-body">
-                        <h3 class="card-title">${issue.desc}</h3>
-                        <h6>Issue ID: ${issue.id}</h6>
+                        <h6 class="card-title">${issue.desc}</h6>
+                        <p>Issue ID: ${issue.id}</p>
                         <p><span class="label label-info">Status: ${issue.status}</span></p>
                         <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
                         <p><span class="glyphicon glyphicon-user">Date created: ${issue.date}</span></p>
@@ -37,17 +37,21 @@ function readIssues() {
     }
 )}
 
-document.getElementById('lowPriority').addEventListener('click', e => {
+document.getElementById('all').addEventListener('click', e => {
+    renderCurrentData();
+})
+
+document.getElementById('low').addEventListener('click', e => {
     document.getElementById('issuesList').innerHTML = "";
     readFilteredIssues(e);
 })
 
-document.getElementById('mediumPriority').addEventListener('click', e => {
+document.getElementById('medium').addEventListener('click', e => {
     document.getElementById('issuesList').innerHTML = "";
     readFilteredIssues(e);
 })
 
-document.getElementById('highPriority').addEventListener('click', e => {
+document.getElementById('high').addEventListener('click', e => {
     document.getElementById('issuesList').innerHTML = "";
     readFilteredIssues(e);
 })
@@ -60,8 +64,8 @@ function readFilteredIssues(e) {
             document.getElementById("issuesList").innerHTML += `
                 <div class="card mb-3" id="${issue.id}" style="width: 25rem">
                     <div class="card-body">
-                        <h3 class="card-title">${issue.desc}</h3>
-                        <h6>Issue ID: ${issue.id}</h6>
+                        <h6 class="card-title">${issue.desc}</h6>
+                        <p>Issue ID: ${issue.id}</p>
                         <p><span class="label label-info">Status: ${issue.status}</span></p>
                         <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
                         <p><span class="glyphicon glyphicon-user">Date created: ${issue.date}</span></p>
