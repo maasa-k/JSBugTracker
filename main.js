@@ -37,32 +37,24 @@ function readIssues() {
     }
 )}
 
-document.getElementById('all').addEventListener('click', e => {
-    renderCurrentData();
-})
+const filterButtons = document.querySelector('.filterButtons');
 
-document.getElementById('low').addEventListener('click', e => {
+filterButtons.addEventListener('click', filterIssues);
+
+function filterIssues(e) {
     document.getElementById('issuesList').innerHTML = "";
-    readFilteredIssues(e);
-})
+    const priorityLevel = e.target.innerHTML;
+    readFilteredIssues(priorityLevel);
+}
 
-document.getElementById('medium').addEventListener('click', e => {
-    document.getElementById('issuesList').innerHTML = "";
-    readFilteredIssues(e);
-})
-
-document.getElementById('high').addEventListener('click', e => {
-    document.getElementById('issuesList').innerHTML = "";
-    readFilteredIssues(e);
-})
-
-function readFilteredIssues(e) {
-    issuesRef.orderByChild('priority').equalTo(e.target.innerHTML).on("value", function(snapshot) {
+function readFilteredIssues(filterOption) {
+    if (filterOption === "All") renderCurrentData();
+    issuesRef.orderByChild('priority').equalTo(filterOption).on("value", function(snapshot) {
         snapshot.forEach(snap => {
             const issue = snap.val();
             
             document.getElementById("issuesList").innerHTML += `
-                <div class="card mb-3" id="${issue.id}" style="width: 25rem">
+                <div class="card mb-3" id="${issue.id}">
                     <div class="card-body">
                         <h6 class="card-title">${issue.desc}</h6>
                         <p>Issue ID: ${issue.id}</p>
@@ -130,7 +122,7 @@ function saveIssue(desc, priority, date, status, id) {
         priority: priority,
         date: date
     });
-    
+
     renderCurrentData();
 }
 
@@ -148,6 +140,10 @@ function setStatusOpen(id) {
     })
     
     renderCurrentData();
+}
+
+function changeStatus() {
+    
 }
 
 function deleteIssue(id) {
