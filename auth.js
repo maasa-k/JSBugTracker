@@ -1,9 +1,3 @@
-///////////////////// AUTHENTICATION /////////////////////
-
-// auth.onAuthStateChanged(firebaseUser => {});
-
-// Initialize the FirebaseUI Widget using Firebase.
-// var ui = new firebaseui.auth.AuthUI(firebase.auth());
 const auth = firebase.auth();
 
 const email = document.getElementById('txtEmail');
@@ -13,6 +7,8 @@ const btnSignUp = document.getElementById('btnSignUp');
 const btnLogout = document.getElementById('btnLogout');
 
 btnSignUp.addEventListener('click', signUp);
+btnLogin.addEventListener('click', login);
+btnLogout.addEventListener('click', logout);
 
 function signUp() {
     const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
@@ -20,6 +16,25 @@ function signUp() {
 
     alert('Signed Up!');
 }
+
+function login() {
+    const promise = auth.signInWithEmailAndPassword(email.value, password.value);
+    promise.catch(e => alert(e.message));
+
+    alert('Signed in ' + email.value);
+}
+
+function logout() {
+    auth.signOut();
+    alert('Signed out')
+}
+
+module.exports = auth;
+
+
+
+
+
 
 // btnLogin.addEventListener('click', e => {
 //     const email = txtEmail.value;

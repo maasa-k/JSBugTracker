@@ -1,3 +1,5 @@
+const functions = require('firebase-functions');
+
 const firebaseConfig = {
     apiKey: "AIzaSyDzMxIcY-puVE7ul2QcI4GYIyn1V6owJXQ",
     authDomain: "jsbugtracker.firebaseapp.com",
@@ -151,3 +153,39 @@ function deleteIssue(id) {
     
     renderCurrentData();
 }
+
+module.exports = {
+    'auth': functions.https.onRequest(auth)
+}
+
+///////////////////
+
+// const auth = firebase.auth();
+
+// const email = document.getElementById('txtEmail');
+// const password = document.getElementById('txtPassword');
+// const btnLogin = document.getElementById('btnLogin');
+// const btnSignUp = document.getElementById('btnSignUp');
+// const btnLogout = document.getElementById('btnLogout');
+
+// btnSignUp.addEventListener('click', signUp);
+// btnLogin.addEventListener('click', login);
+
+// function signUp() {
+//     const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
+//     promise.catch(e => alert(e.message));
+
+//     alert('Signed Up!');
+// }
+
+// function login() {
+//     const promise = auth.signInWithEmailAndPassword(email.value, password.value);
+//     promise.catch(e => alert(e.message));
+
+//     alert('Signed in ' + email.value);
+// }
+
+// function logout() {
+//     auth.signOut();
+//     alert('Signed out')
+// }
