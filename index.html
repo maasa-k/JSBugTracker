@@ -10,11 +10,13 @@
     </head>
     <body onload="readIssues()">
         <div class="container">
-            <input id="txtEmail" type="email" placeholder="Email">
-            <input id="txtPassword" type="password" placeholder="Password">
-            <button id="btnLogin" class="btn btn-action">Log in</button>
-            <button id="btnSignUp" class="btn btn-secondary">Sign up</button>
-            <button id="btnLogout" class="btn btn-action hide">Log out</button>
+            <form>
+                <input id="txtEmail" type="email" placeholder="Email">
+                <input id="txtPassword" type="password" placeholder="Password">
+                <button id="btnLogin" class="btn btn-action">Log in</button>
+                <button id="btnSignUp" class="btn btn-secondary">Sign up</button>
+                <button id="btnLogout" class="btn btn-action hide">Log out</button>
+            </form>
         </div>
     </div>
     
@@ -65,5 +67,6 @@
         <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
         <script src="main.js"></script>
+        <script src="auth.js"></script>
     </body>
 </html>
