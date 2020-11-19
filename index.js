@@ -152,48 +152,43 @@ function deleteIssue(id) {
     renderCurrentData();
 }
 
-///////////////////// AUTHENTICATION /////////////////////
+/////////////////////// AUTHENTICATION ///////////////////////
 
-// auth.onAuthStateChanged(firebaseUser => {});
+const auth = firebase.auth();
 
-// Initialize the FirebaseUI Widget using Firebase.
-// var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-const txtEmail = document.getElementById('txtEmail');
-const txtPassword = document.getElementById('txtPassword');
+const email = document.getElementById('txtEmail');
+const password = document.getElementById('txtPassword');
 const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
 const btnLogout = document.getElementById('btnLogout');
 
-btnLogin.addEventListener('click', e => {
-    const email = txtEmail.value;
-    const password = txtPassword.value;
-    
-    const auth = firebase.auth();
-    const promise = auth.signInWithEmailAndPassword(email, password);
-    promise.catch(e => console.log(e.message))
-})
+btnSignUp.addEventListener('click', signUp);
+btnLogin.addEventListener('click', login);
 
-btnSignUp.addEventListener('click', e => {
-    const email = txtEmail.value;
-    const password = txtPassword.value;
-    
-    const auth = firebase.auth();
-    const promise = auth.createUserWithEmailAndPassword(email, password);
-    promise
-        .catch(e => console.log(e.message));
-})
+function signUp() {
+    const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
+    promise.catch(e => alert(e.message));
 
-btnLogout.addEventListener('click', e => {
-    firebase.auth().signOut();
-})
+    alert('Signed Up!');
+}
 
-firebase.auth().onAuthStateChanged(firebaseUser => {
-    if (firebaseUser) {
-        console.log(firebaseUser);
-        btnLogout.classList.remove('hide');
+function login() {
+    const promise = auth.signInWithEmailAndPassword(email.value, password.value);
+    promise.catch(e => alert(e.message));
+
+    alert('Signed in ' + email.value);
+}
+
+function logout() {
+    auth.signOut();
+    alert('Signed out')
+}
+
+auth.onAuthStateChanged(function(user) {
+    if (user) {
+        const email = user.email;
+        alert('Active User ' + email);
     } else {
-        console.log('not logged in');
-        btnLogout.classList.add('hide');
+        alert('No Active User');
     }
-})
+});
