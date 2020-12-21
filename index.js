@@ -1,32 +1,20 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyDzMxIcY-puVE7ul2QcI4GYIyn1V6owJXQ",
-    authDomain: "jsbugtracker.firebaseapp.com",
-    databaseURL: "https://jsbugtracker.firebaseio.com",
-    projectId: "jsbugtracker",
-    storageBucket: "jsbugtracker.appspot.com",
-    messagingSenderId: "73963561169",
-    appId: "1:73963561169:web:a2bf79837b6afebad7e5f0"
-};
+const issuesRef = db.ref('issues');
 
-firebase.initializeApp(firebaseConfig);
-
-const issuesRef = firebase.database().ref('issues');
-
-function readIssues() {
+const setupIssues = (issues) => {
     issuesRef.orderByChild("date").on("value", function(snapshot) {
         snapshot.forEach(snap => {
             const issue = snap.val();
             
             document.getElementById("issuesList").innerHTML += `
-                <div class="card" id="${issue.id}">
-                    <div class="card-body">
-                        <h6 class="card-title">${issue.desc}</h6>
-                        <p>Issue ID: ${issue.id}</p>
-                        <p><span class="label label-info">Status: ${issue.status}</span></p>
-                        <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
-                        <p><span class="glyphicon glyphicon-user">Date created: ${issue.date}</span></p>
-                        ` +
-                        statusButton(issue)
+            <div class="card" id="${issue.id}">
+            <div class="card-body">
+            <h6 class="card-title">${issue.desc}</h6>
+            <p>Issue ID: ${issue.id}</p>
+            <p><span class="label label-info">Status: ${issue.status}</span></p>
+            <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
+            <p><span class="glyphicon glyphicon-user">Date created: ${issue.date}</span></p>
+            ` +
+            statusButton(issue)
                         +
                         ` 
                         <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
@@ -36,6 +24,30 @@ function readIssues() {
         })
     }
 )}
+// function readIssues() {
+//     issuesRef.orderByChild("date").on("value", function(snapshot) {
+//         snapshot.forEach(snap => {
+//             const issue = snap.val();
+            
+//             document.getElementById("issuesList").innerHTML += `
+//             <div class="card" id="${issue.id}">
+//             <div class="card-body">
+//             <h6 class="card-title">${issue.desc}</h6>
+//             <p>Issue ID: ${issue.id}</p>
+//             <p><span class="label label-info">Status: ${issue.status}</span></p>
+//             <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
+//             <p><span class="glyphicon glyphicon-user">Date created: ${issue.date}</span></p>
+//             ` +
+//             statusButton(issue)
+//                         +
+//                         ` 
+//                         <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
+//                     </div>
+//                 </div>
+//             `
+//         })
+//     }
+// )}
 
 const filterButtons = document.querySelector('.filterButtons');
 
@@ -142,53 +154,8 @@ function setStatusOpen(id) {
     renderCurrentData();
 }
 
-function changeStatus() {
-    
-}
-
 function deleteIssue(id) {
     issuesRef.child(id).remove();
     
     renderCurrentData();
 }
-
-/////////////////////// AUTHENTICATION ///////////////////////
-
-const auth = firebase.auth();
-
-const email = document.getElementById('txtEmail');
-const password = document.getElementById('txtPassword');
-const btnLogin = document.getElementById('btnLogin');
-const btnSignUp = document.getElementById('btnSignUp');
-const btnLogout = document.getElementById('btnLogout');
-
-btnSignUp.addEventListener('click', signUp);
-btnLogin.addEventListener('click', login);
-
-function signUp() {
-    const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
-    promise.catch(e => alert(e.message));
-
-    alert('Signed Up!');
-}
-
-function login() {
-    const promise = auth.signInWithEmailAndPassword(email.value, password.value);
-    promise.catch(e => alert(e.message));
-
-    alert('Signed in ' + email.value);
-}
-
-function logout() {
-    auth.signOut();
-    alert('Signed out')
-}
-
-auth.onAuthStateChanged(function(user) {
-    if (user) {
-        const email = user.email;
-        alert('Active User ' + email);
-    } else {
-        alert('No Active User');
-    }
-});

@@ -1,70 +1,33 @@
-const auth = firebase.auth();
-
 const email = document.getElementById('txtEmail');
 const password = document.getElementById('txtPassword');
 const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
 const btnLogout = document.getElementById('btnLogout');
 
-btnSignUp.addEventListener('click', signUp);
-btnLogin.addEventListener('click', login);
-btnLogout.addEventListener('click', logout);
 
-function signUp() {
+auth.onAuthStateChanged(user => {
+    if (user) {
+        console.log(user.email + ' is logged in');
+        console.log(db.ref('issues'));
+        // const issues = db.ref('issues');
+        // setupIssues(issues);
+    } else {
+        console.log('Logged out');
+    }
+})
+
+btnSignUp.addEventListener('click', e => {
+    e.preventDefault();
     const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
+})
 
-    alert('Signed Up!');
-}
-
-function login() {
+btnLogin.addEventListener('click', e => {
+    e.preventDefault();
     const promise = auth.signInWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
+})
 
-    alert('Signed in ' + email.value);
-}
-
-function logout() {
+btnLogout.addEventListener('click', e => {
     auth.signOut();
-    alert('Signed out')
-}
-
-module.exports = auth;
-
-
-
-
-
-
-// btnLogin.addEventListener('click', e => {
-//     const email = txtEmail.value;
-//     const password = txtPassword.value;
-    
-//     const auth = firebase.auth();
-//     const promise = auth.signInWithEmailAndPassword(email, password);
-//     promise.catch(e => console.log(e.message))
-// })
-
-// btnSignUp.addEventListener('click', e => {
-//     const email = txtEmail.value;
-//     const password = txtPassword.value;
-    
-//     const auth = firebase.auth();
-//     const promise = auth.createUserWithEmailAndPassword(email, password);
-//     promise
-//         .catch(e => alert(e.message));
-// })
-
-// btnLogout.addEventListener('click', e => {
-//     firebase.auth().signOut();
-// })
-
-// firebase.auth().onAuthStateChanged(firebaseUser => {
-//     if (firebaseUser) {
-//         console.log(firebaseUser);
-//         btnLogout.classList.remove('hide');
-//     } else {
-//         alert('not logged in');
-//         btnLogout.classList.add('hide');
-//     }
-// })
+})
