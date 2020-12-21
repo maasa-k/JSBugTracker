@@ -20,27 +20,42 @@
             </form>
         </div>
     </div>
+
+    <!-- MODAL BUTTON FOR NEW ISSUE FORM -->
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newIssueFormModal">Report New Bug</button>    
     
     <div class="container">
         <h1>JavaScript Bug Tracker <small>by Maasa</small></h1>
-        <div class="jumbotron">
-            <h3>Report New Bug:</h3>
-            <form id="newIssueForm">
-                <div class="form-group">
-                    <label for="issueDescInput">Description</label>
-                    <input type="text" class="form-control" id="issueDescInput" placeholder="Describe the issue">
+
+        <!-- NEW ISSUE FORM -->
+        <div class="modal fade" id="newIssueFormModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Report New Bug:</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form id="newIssueForm">
+                            <div class="form-group">
+                                <label for="issueDescInput">Description</label>
+                                <input type="text" class="form-control" id="issueDescInput" placeholder="Describe the issue">
+                            </div>
+                            <div class="form-group">
+                                <label for="priorityLevelInput">Priority Level</label>
+                                <select id="priorityLevelInput" class="form-control">
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="priorityLevelInput">Priority Level</label>
-                    <select id="priorityLevelInput" class="form-control">
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
-            </form>
+            </div>
         </div>
+
+        <!-- FILTER BUTTONS -->
         <div class="filterButtons">
             <button id="all" class="btn btn-primary">All</button>
             <button id="low" class="btn btn-info">Low</button>
@@ -84,5 +99,11 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
         <script src="index.js"></script>
         <script src="auth.js"></script>
+
+        <script>
+            $('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+        </script>
     </body>
 </html>

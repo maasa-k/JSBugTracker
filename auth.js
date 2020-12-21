@@ -8,11 +8,11 @@ const btnLogout = document.getElementById('btnLogout');
 auth.onAuthStateChanged(user => {
     if (user) {
         console.log(user.email + ' is logged in');
-        console.log(db.ref('issues'));
-        // const issues = db.ref('issues');
-        // setupIssues(issues);
+        const issues = db.ref('issues');
+        setupIssues(issues);
     } else {
         console.log('Logged out');
+        // HTML instructing to sign in
     }
 })
 
