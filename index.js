@@ -1,4 +1,14 @@
+const loggedOutLinks = document.querySelectorAll('.logged-out');
+const loggedInLinks = document.querySelectorAll('.logged-in');
+
 const issuesRef = db.ref('issues');
+
+const setupNavbar = (user) => {
+    if (user) {
+        loggedInLinks.forEach(link => link.style.display = 'block');
+        loggedOutLinks.forEach(link => link.style.display = 'none');
+    }
+}
 
 const setupIssues = (issues) => {
     issuesRef.orderByChild("date").on("value", function(snapshot) {
@@ -95,7 +105,7 @@ function statusButton(issue) {
 
 function renderCurrentData() {
     document.getElementById('issuesList').innerHTML = "";
-    readIssues();
+    setupIssues();
 }
 
 document.getElementById("newIssueForm").addEventListener("submit", e => {

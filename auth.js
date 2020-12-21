@@ -10,6 +10,7 @@ auth.onAuthStateChanged(user => {
         console.log(user.email + ' is logged in');
         const issues = db.ref('issues');
         setupIssues(issues);
+        setupNavbar(user);
     } else {
         console.log('Logged out');
         // HTML instructing to sign in
