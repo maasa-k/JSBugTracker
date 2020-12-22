@@ -4,7 +4,6 @@ const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
 const btnLogout = document.getElementById('btnLogout');
 
-
 auth.onAuthStateChanged(user => {
     if (user) {
         console.log(user.email + ' is logged in');
@@ -13,7 +12,7 @@ auth.onAuthStateChanged(user => {
         setupNavbar(user);
     } else {
         console.log('Logged out');
-        // HTML instructing to sign in
+        setupIssues();
     }
 })
 
@@ -29,6 +28,12 @@ btnLogin.addEventListener('click', e => {
     promise.catch(e => alert(e.message));
 })
 
-btnLogout.addEventListener('click', e => {
+const logout = document.querySelector('#logout');
+logout.addEventListener('click', e => {
+    e.preventDefault();
     auth.signOut();
 })
+
+// btnLogout.addEventListener('click', e => {
+//     auth.signOut();
+// })

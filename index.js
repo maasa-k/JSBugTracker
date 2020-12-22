@@ -1,3 +1,4 @@
+const welcome = document.querySelector('#welcome');
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 
@@ -11,29 +12,33 @@ const setupNavbar = (user) => {
 }
 
 const setupIssues = (issues) => {
-    issuesRef.orderByChild("date").on("value", function(snapshot) {
-        snapshot.forEach(snap => {
-            const issue = snap.val();
-            
-            document.getElementById("issuesList").innerHTML += `
-            <div class="card" id="${issue.id}">
-            <div class="card-body">
-            <h6 class="card-title">${issue.desc}</h6>
-            <p>Issue ID: ${issue.id}</p>
-            <p><span class="label label-info">Status: ${issue.status}</span></p>
-            <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
-            <p><span class="glyphicon glyphicon-user">Date created: ${issue.date}</span></p>
-            ` +
-            statusButton(issue)
-                        +
-                        ` 
-                        <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
+    if (issues) {
+        issuesRef.orderByChild("date").on("value", function(snapshot) {
+            snapshot.forEach(snap => {
+                const issue = snap.val();
+                
+                document.getElementById("issuesList").innerHTML += `
+                <div class="card" id="${issue.id}">
+                <div class="card-body">
+                <h6 class="card-title">${issue.desc}</h6>
+                <p>Issue ID: ${issue.id}</p>
+                <p><span class="label label-info">Status: ${issue.status}</span></p>
+                <p><span class="glyphicon glyphicon-time">Priority Level: ${issue.priority}</span></p>
+                <p><span class="glyphicon glyphicon-user">Date created: ${issue.date}</span></p>
+                ` +
+                statusButton(issue)
+                            +
+                            ` 
+                            <button onclick="deleteIssue('${issue.id}')" class="btn btn-danger mx-3">Delete</button>
+                        </div>
                     </div>
-                </div>
-            `
+                `
+            })
         })
+    } else {
+        welcome.innerHTML = '<h3>Login to use JS Bug Tracker</h3>'
     }
-)}
+}
 // function readIssues() {
 //     issuesRef.orderByChild("date").on("value", function(snapshot) {
 //         snapshot.forEach(snap => {

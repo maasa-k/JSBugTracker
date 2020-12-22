@@ -12,7 +12,7 @@
         <!-- NAVBAR -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">JS Bug Tracker</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
           
@@ -25,14 +25,11 @@
                     <a class="nav-link logged-out" style="display: none;" href="#">Login <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link logged-in" style="display: none;" href="#">Logout</a>
+                    <a class="nav-link logged-in" id="logout" style="display: none;" href="#">Logout</a>
                 </li>
               </ul>
             </div>
-        </nav>
-
-    <!-- MODAL BUTTON FOR SIGNIN-->
-
+        </nav> 
 
     <!-- MODAL FOR SIGNIN -->
         <div class="modal fade" id="authFormModal" tabindex="-1" role="dialog">
@@ -91,12 +88,16 @@
             <button id="low" class="btn btn-info">Low</button>
             <button id="medium" class="btn btn-warning">Medium</button>
             <button id="high" class="btn btn-danger">High</button>
-            </div>
-            <div class="card-columns">
-                <div id="issuesList">
-            </div>
-
         </div>
+
+        <!-- RENDER ISSUES OR WELCOME MESSAGE -->
+        <div class="card-columns">
+            <div id="issuesList">
+        </div>
+    </div>
+    <div class="container">
+        <div id="welcome"></div>
+    </div>
 
         <footer class="page-footer font-small blue fixed-bottom">
             <div class="footer-copyright text-right">
