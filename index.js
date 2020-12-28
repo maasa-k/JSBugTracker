@@ -16,7 +16,9 @@ const setupNavbar = (user) => {
 }
 
 const setupIssues = (issues) => {
+    console.log(issues);
     if (issues) {
+        console.log(issues);
         issuesRef.orderByChild("date").on("value", function(snapshot) {
             let html = '';
             snapshot.forEach(snap => {
